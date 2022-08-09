@@ -15,10 +15,10 @@ const SELECCION_TELEFONOS = "T11:T150";
 const SELECCION_PERSONAS = "C11:C150";
 const GUION = "-";
 const ESPACIO = " ";
-const PARENTESIS_IZQ = "(" ; 
-const PARENTESIS_DER = ")" ; 
-const STR_54 = "54" ; 
-const STR_261 = "261" ; 
+const PARENTESIS_IZQ = "(";
+const PARENTESIS_DER = ")";
+const STR_54 = "54";
+const STR_261 = "261";
 const TYPE_NUMBER = "number"
 const EXCLAMATION = "!"
 const PLUS_SIGN = "+"
@@ -65,9 +65,16 @@ function myFunction() {
 
 
     // Limpiar array de telefonos para poder iterarlos
-    telefonos = limpiarArray(telefonos)
+    //telefonos = limpiarArray(telefonos)
     // Limpiar array de personas para poder iterarlos 
-    personas = limpiarArray(personas);
+    //personas = limpiarArray(personas);
+
+    let paresDeDatos = [];
+
+    paresDeDatos = armadorDePares(telefonos, personas);
+
+    telefonos = distribuidorTelefonos(paresDeDatos)
+    personas = distribuidorPersonas(paresDeDatos)
 
 
     procesarHoja(telefonos, personas)
@@ -112,7 +119,8 @@ function myFunction2_hojaPorHoja() {
 }
 
 /**
- * 
+ *  Concatena 1 a 1 valores de telefono y persona cuando ambos no sean vacios
+ *  Devuelve el array resultante
  */
 function armadorDePares(telefonos, personas) {
 
@@ -131,14 +139,14 @@ function armadorDePares(telefonos, personas) {
   return paresDeDatos;
 }
 /**
- * 
+ * Divide el array [Pares de Datos] por todos sus indices impares
+ *  Devuelve un array de todos los indices impares -> telefonos
  */
 function distribuidorTelefonos(paresDeDatos) {
   let odd = [];
 
   for (var i = 0; i < paresDeDatos.length; ++i) {
-    if ((i % 2) === 0) { }
-    else {
+    if ((i % 2) === 0) {}else {
       odd.push(paresDeDatos[i]);
     }
   };
@@ -148,7 +156,8 @@ function distribuidorTelefonos(paresDeDatos) {
 }
 
 /**
- * 
+ *  Divide el array [Pares de Datos] por todos sus indices pares
+ *  Devuelve un array de todos los indices pares -> personas
  */
 function distribuidorPersonas(paresDeDatos) {
 
@@ -284,10 +293,10 @@ function normalizarTelefonos(telefono) {
   /**
    * Validacion para  [+54 2612762107]
    */
-  if(telefono.length === 14  && telefono.substring(0, 1) === PLUS_SIGN){
+  if (telefono.length === 14 && telefono.substring(0, 1) === PLUS_SIGN) {
 
     telefono = telefono.replace(PLUS_SIGN, VACIO);
-    telefono = telefono.replace(ESPACIO,VACIO);
+    telefono = telefono.replace(ESPACIO, VACIO);
 
   }
 
