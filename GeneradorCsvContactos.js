@@ -257,7 +257,7 @@ function normalizarTelefonos(telefono) {
   }
 
   /**
-   * Validacion para parentesis sin guion [(261) 1234567]
+   * Validacion para numero con pais sin el mas [54 2611234567]
    */
   if (telefono.length === 13 && telefono.substring(2, 3) === ESPACIO) {
 
@@ -270,7 +270,7 @@ function normalizarTelefonos(telefono) {
 
   }
   /**
-   *  Validacion para numero con pais sin el mas [54 2611234567]
+   * Validacion para parentesis sin guion [(261) 1234567]
    */
   else if (telefono.length === 13 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
@@ -345,8 +345,6 @@ function normalizarTelefonos(telefono) {
    *  Telefonos fijos con guion [412-3456]
    */
   if (telefono.length === 8) {
-
-
 
     nuevoTelefono = STR_261 + ESPACIO + telefono
 
