@@ -47,7 +47,7 @@ function myFunction() {
     // Limpiar array de personas para poder iterarlos 
     personas = limpiarArray(personas);
 
-    procesarHoja(telefonos,personas)
+    procesarHoja(telefonos, personas)
 
   }
 
@@ -56,6 +56,7 @@ function myFunction() {
   /* 
   * Puntos siguientes
     Expandir para que tome todas las hojas del Google Sheet -- actualmente me choco con el limite de ejecucion de 6 mins
+    Google Workspace accounts, because you are paying a monthly fee to Google per user, the timeout limit is more generous at 30 minutes.
     Expandir para que lea todos los Sheets de una carpeta -- no es dificil pero sin superar el limite de ejecucion de 6 mins we re fucked
    */
 
