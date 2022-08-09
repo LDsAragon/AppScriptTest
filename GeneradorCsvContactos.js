@@ -70,7 +70,6 @@ function myFunction() {
     telefonos = distribuidorTelefonos(paresDeDatos)
     personas = distribuidorPersonas(paresDeDatos)
 
-
     procesarHoja(telefonos, personas)
 
   }
@@ -92,13 +91,13 @@ function myFunction2_hojaPorHoja() {
   //url del documento a analizar
   let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
 
-  // Nombre de la Hoja a escanear del documento -> doc1
+  /**
+   * Nombre de la Hoja a escanear del documento -> doc1 
+   * */ 
   let HOJA = "3"
 
-  // Te deje esto aca por si queres pasar hoja a hoja
   let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
 
-  // Te deje esto aca por si queres pasar hoja a hoja
   let personas = doc1.getRange(HOJA + EXCLAMATION + SELECCION_PERSONAS).getValues();
 
   let paresDeDatos = [];
@@ -122,7 +121,6 @@ function armadorDePares(telefonos, personas) {
 
   telefonos = telefonos.flat();
   personas = personas.flat();
-
 
   for (var i = 0; i < telefonos.length; i++) {
     if (telefonos[i] !== VACIO && personas[i] !== VACIO) {
@@ -371,7 +369,7 @@ function normalizarTelefonos(telefono) {
 }
 
 /**
- * 
+ * Normaliza los numeros de telefono y los escribe en el excel
  */
 function procesarHoja(telefonos, personas) {
 
@@ -394,7 +392,7 @@ function procesarHoja(telefonos, personas) {
 
 
     telefono = normalizarTelefonos(telefono)
-    // Modificar hoja de la que se tomaron los datos con los valores normalizados. 
+
     escribirValoresExcel(CELDAS_NAME, persona);
     escribirValoresExcel(CELDAS_GIVEN_NAME, persona);
     escribirValoresExcel(CELDAS_MEMBERS, MEMBERS_VALUE);
