@@ -3,6 +3,7 @@
  */
 let fila = 2
 
+
 const VACIO = "";
 const CELDAS_TELEFONOS = "AG"
 const CELDAS_MEMBERS = "AC"
@@ -14,6 +15,10 @@ const SELECCION_TELEFONOS = "T11:T50";
 const SELECCION_PERSONAS = "C11:C50";
 const GUION = "-";
 const ESPACIO = " ";
+/**
+ * URL del documento a analizar e ir leyendo hoja por hoja para normalizar los telefonos
+ */
+const URL_DOCUMENTO_ANALIZAR = "https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=1174061784"
 
 let primera;
 let segunda;
@@ -22,15 +27,18 @@ let telefono;
 let persona;
 let nuevoTelefono;
 
-
+/**
+ * Url del documento en el que se va a escribir el csv para importar a contactos de google.
+ */
+const URL_CSV_SALIDA = "https://docs.google.com/spreadsheets/d/1ieVLgszeTa9UZ1g9QsYg3DSHNSWC3e7aSDS5SuB1Eyw/edit#gid=1964355463"
 /**
  * Documento en el que se va a escribir el csv para importar a contactos de google.
  */
-const documentoContactos = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1ieVLgszeTa9UZ1g9QsYg3DSHNSWC3e7aSDS5SuB1Eyw/edit#gid=1964355463");
+const documentoContactos = SpreadsheetApp.openByUrl(URL_CSV_SALIDA);
 
 function myFunction() {
 
-  let doc1 = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=1174061784");
+  let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
 
 
   const HOJAS = doc1.getSheets().length;
@@ -38,10 +46,8 @@ function myFunction() {
   for (var i = 1; i < HOJAS + 1; i++) {
 
     // Obtener valores de columna de telefonos en la hoja i
-    //let telefonos = doc1.getRange("1!" + SELECCION_TELEFONOS).getValues();   // Te deje esto aca por si queres pasar hoja a hoja
     let telefonos = doc1.getSheets()[i].getRange(SELECCION_TELEFONOS).getValues();
     // Obtener valores de columna personas para poder iterarlos en la hoja i
-    //let personas = doc1.getRange("1!" + SELECCION_PERSONAS).getValues();     // Te deje esto aca por si queres pasar hoja a hoja
     let personas = doc1.getSheets()[i].getRange(SELECCION_PERSONAS).getValues();
 
     // Limpiar array de telefonos para poder iterarlos
@@ -65,7 +71,7 @@ function myFunction() {
 function myFunction2_hojaPorHoja() {
 
   //url del documento a analizar
-  let doc1 = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=1174061784");
+  let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
 
   // Nombre de la Hoja a escanear del documento -> doc1
   let HOJA = "1"
