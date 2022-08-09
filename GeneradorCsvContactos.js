@@ -11,8 +11,8 @@ const CELDAS_NAME = "A"
 const CELDAS_GIVEN_NAME = "B"
 const MEMBERS_VALUE = "* myContacts"
 
-const SELECCION_TELEFONOS = "T11:T350";
-const SELECCION_PERSONAS = "C11:C350";
+const SELECCION_TELEFONOS = "T11:T150";
+const SELECCION_PERSONAS = "C11:C150";
 const GUION = "-";
 const ESPACIO = " ";
 const PARENTESIS_IZQ = "(";
@@ -93,7 +93,7 @@ function myFunction2_hojaPorHoja() {
   let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
 
   // Nombre de la Hoja a escanear del documento -> doc1
-  let HOJA = "17"
+  let HOJA = "1"
 
   // Te deje esto aca por si queres pasar hoja a hoja
   let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
@@ -210,7 +210,7 @@ function getCurrentCellComplete(celdas) {
 /**
  * Escribe valores en el excel para la celda designada de los telefonos
  */
-function escribirNumerosTelefonoExcel(nuevoTelefono, telefono) {
+function escribirNumerosTelefonoExcel(nuevoTelefono) {
 
 
   let cellValue = getCurrentCellComplete(CELDAS_TELEFONOS).getValue();
@@ -244,7 +244,14 @@ function escribirValoresExcel(celda, valor) {
 
   } else if (cellValue !== VACIO) {
 
-    fila = fila + 1
+    /**
+     * Calcular la siguiente fila para una celda distinta de vacia 
+     * */
+    while(cellValue !== VACIO) {
+      fila = fila + 1
+      cellValue = getCurrentCellComplete(celda).getValue();
+    }
+
     getCurrentCellComplete(celda).setValue(valor);
 
   }
@@ -315,7 +322,7 @@ function normalizarTelefonos(telefono) {
     // borrar primer parentesis 
     telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
     // borrar segundo parentesis ()
-    telefono = telefono.replace(PARENTESIS_IZQ, VACIO).trim();
+    telefono = telefono.replace(PARENTESIS_DER, VACIO).trim();
 
     primera = telefono.substring(0, 3)
     segunda = telefono.substring(4, 7)
@@ -407,7 +414,7 @@ function normalizarTelefonos(telefono) {
 }
 
 /**
- * Normaliza los telefonos y escribe valores en el documento a exportar
+ * 
  */
 function procesarHoja(telefonos, personas) {
 
@@ -434,7 +441,8 @@ function procesarHoja(telefonos, personas) {
     escribirValoresExcel(CELDAS_NAME, persona);
     escribirValoresExcel(CELDAS_GIVEN_NAME, persona);
     escribirValoresExcel(CELDAS_MEMBERS, MEMBERS_VALUE);
-    escribirNumerosTelefonoExcel(nuevoTelefono, telefono);
+    escribirValoresExcel(CELDAS_TELEFONOS,telefono)
+    //escribirNumerosTelefonoExcel(nuevoTelefono, telefono);
 
   }
 
