@@ -38,8 +38,10 @@ function myFunction() {
   for (var i = 1; i < HOJAS + 1; i++) {
 
     // Obtener valores de columna de telefonos en la hoja i
+    //let telefonos = doc1.getRange("1!" + SELECCION_TELEFONOS).getValues();   Te deje esto aca por si queres pasar hoja a hoja
     let telefonos = doc1.getSheets()[i].getRange(SELECCION_TELEFONOS).getValues();
     // Obtener valores de columna personas para poder iterarlos en la hoja i
+    //let personas = doc1.getRange("1!" + SELECCION_PERSONAS).getValues();     Te deje esto aca por si queres pasar hoja a hoja
     let personas = doc1.getSheets()[i].getRange(SELECCION_PERSONAS).getValues();
 
     // Limpiar array de telefonos para poder iterarlos
