@@ -63,12 +63,6 @@ function myFunction() {
     // Obtener valores de columna personas para poder iterarlos en la hoja i
     let personas = doc1.getSheets()[i].getRange(SELECCION_PERSONAS).getValues();
 
-
-    // Limpiar array de telefonos para poder iterarlos
-    //telefonos = limpiarArray(telefonos)
-    // Limpiar array de personas para poder iterarlos 
-    //personas = limpiarArray(personas);
-
     let paresDeDatos = [];
 
     paresDeDatos = armadorDePares(telefonos, personas);
