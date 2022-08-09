@@ -140,7 +140,7 @@ function distribuidorTelefonos(paresDeDatos) {
   let odd = [];
 
   for (var i = 0; i < paresDeDatos.length; ++i) {
-    if ((i % 2) === 0) {}else {
+    if ((i % 2) === 0) { } else {
       odd.push(paresDeDatos[i]);
     }
   };
@@ -206,7 +206,7 @@ function escribirValoresExcel(celda, valor) {
     /**
      * Calcular la siguiente fila para una celda distinta de vacia 
      * */
-    while(cellValue !== VACIO) {
+    while (cellValue !== VACIO) {
       fila = fila + 1
       cellValue = getCurrentCellComplete(celda).getValue();
     }
@@ -398,7 +398,7 @@ function procesarHoja(telefonos, personas) {
     escribirValoresExcel(CELDAS_NAME, persona);
     escribirValoresExcel(CELDAS_GIVEN_NAME, persona);
     escribirValoresExcel(CELDAS_MEMBERS, MEMBERS_VALUE);
-    escribirValoresExcel(CELDAS_TELEFONOS,telefono)
+    escribirValoresExcel(CELDAS_TELEFONOS, telefono)
 
   }
 
