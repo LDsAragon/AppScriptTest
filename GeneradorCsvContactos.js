@@ -93,7 +93,7 @@ function myFunction2_hojaPorHoja() {
   let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
 
   // Nombre de la Hoja a escanear del documento -> doc1
-  let HOJA = "1"
+  let HOJA = "3"
 
   // Te deje esto aca por si queres pasar hoja a hoja
   let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
@@ -168,26 +168,6 @@ function distribuidorPersonas(paresDeDatos) {
 
 
 /**
- * Returns a flattend and clean array
- * Validates if the entry value is a number or not
- */
-function limpiarArray(arr) {
-
-  arr = arr.flat();
-
-  arr = arr.filter(entry => {
-
-    if (typeof (entry) === TYPE_NUMBER) {
-      entry = entry.toString()
-    }
-    return entry.trim() != VACIO;
-  });
-
-  return arr
-
-}
-
-/**
  * Obtiene una celda activa de la primera hoja del documentoContactos
  * @celdas toma el valor de una columna para escribir 
  * Utiliza el parametro global fila para determinar la posicion en la columna a escribir. 
@@ -205,27 +185,6 @@ function getCurrentCellComplete(celdas) {
 
   return currentCell;
 
-}
-
-/**
- * Escribe valores en el excel para la celda designada de los telefonos
- */
-function escribirNumerosTelefonoExcel(nuevoTelefono) {
-
-
-  let cellValue = getCurrentCellComplete(CELDAS_TELEFONOS).getValue();
-
-  if (cellValue == VACIO) {
-
-    getCurrentCellComplete(CELDAS_TELEFONOS).setValue(nuevoTelefono);
-
-  } else if (cellValue !== VACIO) {
-
-    fila = fila + 1
-
-    getCurrentCellComplete(CELDAS_TELEFONOS).setValue(nuevoTelefono);
-
-  }
 }
 
 /**
@@ -282,9 +241,7 @@ function normalizarTelefonos(telefono) {
   if (telefono.length === 14 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
 
-    // borrar primer parentesis 
     telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
-    // borrar segundo parentesis ()
     telefono = telefono.replace(PARENTESIS_DER, VACIO);
 
     nuevoTelefono = telefono;
@@ -442,7 +399,6 @@ function procesarHoja(telefonos, personas) {
     escribirValoresExcel(CELDAS_GIVEN_NAME, persona);
     escribirValoresExcel(CELDAS_MEMBERS, MEMBERS_VALUE);
     escribirValoresExcel(CELDAS_TELEFONOS,telefono)
-    //escribirNumerosTelefonoExcel(nuevoTelefono, telefono);
 
   }
 
