@@ -11,14 +11,24 @@ const CELDAS_NAME = "A"
 const CELDAS_GIVEN_NAME = "B"
 const MEMBERS_VALUE = "* myContacts"
 
-const SELECCION_TELEFONOS = "T11:T50";
-const SELECCION_PERSONAS = "C11:C50";
+const SELECCION_TELEFONOS = "T11:T150";
+const SELECCION_PERSONAS = "C11:C150";
 const GUION = "-";
 const ESPACIO = " ";
+const PARENTESIS_IZQ = "(" ; 
+const PARENTESIS_DER = ")" ; 
+const STR_54 = "54" ; 
+const STR_261 = "261" ; 
+const TYPE_NUMBER = "number"
+const EXCLAMATION = "!"
+const PLUS_SIGN = "+"
+
+
+
 /**
  * URL del documento a analizar e ir leyendo hoja por hoja para normalizar los telefonos
  */
-const URL_DOCUMENTO_ANALIZAR = "https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=1174061784"
+const URL_DOCUMENTO_ANALIZAR = "https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=228148124"
 
 let primera;
 let segunda;
@@ -53,10 +63,12 @@ function myFunction() {
     // Obtener valores de columna personas para poder iterarlos en la hoja i
     let personas = doc1.getSheets()[i].getRange(SELECCION_PERSONAS).getValues();
 
+
     // Limpiar array de telefonos para poder iterarlos
     telefonos = limpiarArray(telefonos)
     // Limpiar array de personas para poder iterarlos 
     personas = limpiarArray(personas);
+
 
     procesarHoja(telefonos, personas)
 
@@ -80,25 +92,77 @@ function myFunction2_hojaPorHoja() {
   let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
 
   // Nombre de la Hoja a escanear del documento -> doc1
-  let HOJA = "1"
-
+  let HOJA = "17"
 
   // Te deje esto aca por si queres pasar hoja a hoja
-  let telefonos = doc1.getRange(HOJA +"!" + SELECCION_TELEFONOS).getValues();   
-  
-  // Te deje esto aca por si queres pasar hoja a hoja
-  let personas = doc1.getRange(HOJA +"!" + SELECCION_PERSONAS).getValues();     
-  
+  let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
 
-  // Limpiar array de telefonos para poder iterarlos
-  telefonos = limpiarArray(telefonos)
-  // Limpiar array de personas para poder iterarlos 
-  personas = limpiarArray(personas);
+  // Te deje esto aca por si queres pasar hoja a hoja
+  let personas = doc1.getRange(HOJA + EXCLAMATION + SELECCION_PERSONAS).getValues();
+
+  let paresDeDatos = [];
+
+  paresDeDatos = armadorDePares(telefonos, personas);
+
+  telefonos = distribuidorTelefonos(paresDeDatos)
+  personas = distribuidorPersonas(paresDeDatos)
 
   procesarHoja(telefonos, personas)
 
+}
+
+/**
+ * 
+ */
+function armadorDePares(telefonos, personas) {
+
+  let paresDeDatos = [];
+
+  telefonos = telefonos.flat();
+  personas = personas.flat();
+
+
+  for (var i = 0; i < telefonos.length; i++) {
+    if (telefonos[i] !== VACIO && personas[i] !== VACIO) {
+      paresDeDatos = paresDeDatos.concat([personas[i], telefonos[i]])
+    }
+  }
+
+  return paresDeDatos;
+}
+/**
+ * 
+ */
+function distribuidorTelefonos(paresDeDatos) {
+  let odd = [];
+
+  for (var i = 0; i < paresDeDatos.length; ++i) {
+    if ((i % 2) === 0) { }
+    else {
+      odd.push(paresDeDatos[i]);
+    }
+  };
+  return odd;
+
 
 }
+
+/**
+ * 
+ */
+function distribuidorPersonas(paresDeDatos) {
+
+  let even = [];
+
+  for (var i = 0; i < paresDeDatos.length; ++i) {
+    if ((i % 2) === 0) {
+      even.push(paresDeDatos[i]);
+    }
+  };
+  return even;
+
+}
+
 
 /**
  * Returns a flattend and clean array
@@ -110,7 +174,7 @@ function limpiarArray(arr) {
 
   arr = arr.filter(entry => {
 
-    if (typeof (entry) === "number") {
+    if (typeof (entry) === TYPE_NUMBER) {
       entry = entry.toString()
     }
     return entry.trim() != VACIO;
@@ -122,9 +186,9 @@ function limpiarArray(arr) {
 
 /**
  * Obtiene una celda activa de la primera hoja del documentoContactos
- * @celdas toma el valor de una columna oara escribir 
+ * @celdas toma el valor de una columna para escribir 
  * Utiliza el parametro global fila para determinar la posicion en la columna a escribir. 
- * Selecciona esa celda con el cursos activo y la devuelve como objeto.
+ * Selecciona esa celda con el cursor activo y la devuelve como objeto.
  */
 function getCurrentCellComplete(celdas) {
 
@@ -156,10 +220,6 @@ function escribirNumerosTelefonoExcel(nuevoTelefono, telefono) {
 
     fila = fila + 1
 
-    if (nuevoTelefono === undefined) {
-      nuevoTelefono = telefono;
-    }
-
     getCurrentCellComplete(CELDAS_TELEFONOS).setValue(nuevoTelefono);
 
   }
@@ -173,7 +233,6 @@ function escribirNumerosTelefonoExcel(nuevoTelefono, telefono) {
  */
 function escribirValoresExcel(celda, valor) {
 
-
   let cellValue = getCurrentCellComplete(celda).getValue();
 
   if (cellValue == VACIO) {
@@ -186,19 +245,19 @@ function escribirValoresExcel(celda, valor) {
     getCurrentCellComplete(celda).setValue(valor);
 
   }
+
 }
 
 function normalizarTelefonos(telefono) {
 
-  primera = "";
-  segunda = "";
-  tercera = "";
-
+  primera = VACIO;
+  segunda = VACIO;
+  tercera = VACIO;
 
   /**
     * Validacion para [+54 2611234567]
     */
-  if (telefono.length === 15 && telefono.substring(0, 1) === "+") {
+  if (telefono.length === 15 && telefono.substring(0, 1) === PLUS_SIGN) {
     telefono = telefono.substring(4)
 
     primera = telefono.substring(-1, 4).trim();
@@ -210,17 +269,28 @@ function normalizarTelefonos(telefono) {
   /**
    * Validacion para parentesis con guion [(261) 123-4567]
    */
-  if (telefono.length === 14 && telefono.substring(0, 1) === "(") {
+  if (telefono.length === 14 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
 
     // borrar primer parentesis 
-    telefono = telefono.replace("(", "");
+    telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
     // borrar segundo parentesis ()
-    telefono = telefono.replace(")", "");
+    telefono = telefono.replace(PARENTESIS_DER, VACIO);
 
     nuevoTelefono = telefono;
 
   }
+
+  /**
+   * Validacion para  [+54 2612762107]
+   */
+  if(telefono.length === 14  && telefono.substring(0, 1) === PLUS_SIGN){
+
+    telefono = telefono.replace(PLUS_SIGN, VACIO);
+    telefono = telefono.replace(ESPACIO,VACIO);
+
+  }
+
   /**
    * Validacion para parentesis sin guion [(261) 1234567]
    */
@@ -237,12 +307,12 @@ function normalizarTelefonos(telefono) {
   /**
    *  Validacion para numero con pais sin el mas [54 2611234567]
    */
-  else if (telefono.length === 13 && telefono.substring(0, 1) === "(") {
+  else if (telefono.length === 13 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
     // borrar primer parentesis 
-    telefono = telefono.replace("(", "");
+    telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
     // borrar segundo parentesis ()
-    telefono = telefono.replace(")", "").trim();
+    telefono = telefono.replace(PARENTESIS_IZQ, VACIO).trim();
 
     primera = telefono.substring(0, 3)
     segunda = telefono.substring(4, 7)
@@ -265,9 +335,9 @@ function normalizarTelefonos(telefono) {
   /**
    *  Validacion para formato todo junto sin espacios [542611234567]
    */
-  if (telefono.length === 12 && telefono.substring(0, 2) == "54") {
+  if (telefono.length === 12 && telefono.substring(0, 2) == STR_54) {
 
-    telefono = telefono.replace("54", VACIO)
+    telefono = telefono.replace(STR_54, VACIO)
 
     primera = telefono.substring(0, 3)
     segunda = telefono.substring(3, 6)
@@ -277,7 +347,7 @@ function normalizarTelefonos(telefono) {
 
   }
   /**
-   *  Validacion para [6211 99-9999]
+   *  Validacion para [2611 99-9999]
    */
 
   if (telefono.length === 12
@@ -313,7 +383,7 @@ function normalizarTelefonos(telefono) {
 
 
 
-    nuevoTelefono = "261" + ESPACIO + telefono
+    nuevoTelefono = STR_261 + ESPACIO + telefono
 
   }
 
@@ -325,10 +395,9 @@ function normalizarTelefonos(telefono) {
     segunda = telefono.substring(0, 3)
     tercera = telefono.substring(4, telefono.length)
 
-    nuevoTelefono = "261" + ESPACIO + segunda + GUION + tercera
+    nuevoTelefono = STR_261 + ESPACIO + segunda + GUION + tercera
 
   }
-
 
   return nuevoTelefono;
 
@@ -349,7 +418,7 @@ function procesarHoja(telefonos, personas) {
     /**
      * Convertir numbers a string en caso de que el valor de la celda se recupere como number
      */
-    if (telefono.length === undefined || typeof (telefono) === "number") {
+    if (telefono.length === undefined || typeof (telefono) === TYPE_NUMBER) {
       telefono = telefono.toString()
       console.log("Telefono convertido a string: " + telefono + " Longitud: " + telefono.length)
     } else {
