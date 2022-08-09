@@ -36,6 +36,9 @@ const URL_CSV_SALIDA = "https://docs.google.com/spreadsheets/d/1ieVLgszeTa9UZ1g9
  */
 const documentoContactos = SpreadsheetApp.openByUrl(URL_CSV_SALIDA);
 
+/**
+ * Analiza todas las hojas del documento a analizar
+ */
 function myFunction() {
 
   let doc1 = SpreadsheetApp.openByUrl(URL_DOCUMENTO_ANALIZAR);
@@ -68,6 +71,9 @@ function myFunction() {
 
 }
 
+/**
+ * Analiza por el nombre de hoja provisto del documento a analizar
+ */
 function myFunction2_hojaPorHoja() {
 
   //url del documento a analizar
