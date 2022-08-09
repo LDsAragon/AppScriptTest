@@ -83,7 +83,7 @@ function limpiarArray(arr) {
 }
 
 /**
- * Obtiene una celda activa del documentoContactos
+ * Obtiene una celda activa de la primera hoja del documentoContactos
  * @celdas toma el valor de una columna oara escribir 
  * Utiliza el parametro global fila para determinar la posicion en la columna a escribir. 
  * Selecciona esa celda con el cursos activo y la devuelve como objeto.
