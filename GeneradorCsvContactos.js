@@ -67,7 +67,7 @@ function myFunction2_hojaPorHoja() {
   //url del documento a analizar
   let doc1 = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=1174061784");
 
-  // Hoja a escanear del documento -> doc1
+  // Nombre de la Hoja a escanear del documento -> doc1
   let HOJA = "1"
 
 
