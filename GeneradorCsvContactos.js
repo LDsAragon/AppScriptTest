@@ -11,8 +11,8 @@ const CELDAS_NAME = "A"
 const CELDAS_GIVEN_NAME = "B"
 const MEMBERS_VALUE = "* myContacts"
 
-const SELECCION_TELEFONOS = "T11:T150";
-const SELECCION_PERSONAS = "C11:C150";
+const SELECCION_TELEFONOS = "T11:T350";
+const SELECCION_PERSONAS = "C11:C350";
 const GUION = "-";
 const ESPACIO = " ";
 const PARENTESIS_IZQ = "(";
@@ -407,7 +407,7 @@ function normalizarTelefonos(telefono) {
 }
 
 /**
- * 
+ * Normaliza los telefonos y escribe valores en el documento a exportar
  */
 function procesarHoja(telefonos, personas) {
 
