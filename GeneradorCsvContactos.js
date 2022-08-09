@@ -38,10 +38,10 @@ function myFunction() {
   for (var i = 1; i < HOJAS + 1; i++) {
 
     // Obtener valores de columna de telefonos en la hoja i
-    //let telefonos = doc1.getRange("1!" + SELECCION_TELEFONOS).getValues();   Te deje esto aca por si queres pasar hoja a hoja
+    //let telefonos = doc1.getRange("1!" + SELECCION_TELEFONOS).getValues();   // Te deje esto aca por si queres pasar hoja a hoja
     let telefonos = doc1.getSheets()[i].getRange(SELECCION_TELEFONOS).getValues();
     // Obtener valores de columna personas para poder iterarlos en la hoja i
-    //let personas = doc1.getRange("1!" + SELECCION_PERSONAS).getValues();     Te deje esto aca por si queres pasar hoja a hoja
+    //let personas = doc1.getRange("1!" + SELECCION_PERSONAS).getValues();     // Te deje esto aca por si queres pasar hoja a hoja
     let personas = doc1.getSheets()[i].getRange(SELECCION_PERSONAS).getValues();
 
     // Limpiar array de telefonos para poder iterarlos
@@ -53,14 +53,38 @@ function myFunction() {
 
   }
 
-
-
   /* 
   * Puntos siguientes
     Expandir para que tome todas las hojas del Google Sheet -- actualmente me choco con el limite de ejecucion de 6 mins
     Google Workspace accounts, because you are paying a monthly fee to Google per user, the timeout limit is more generous at 30 minutes.
     Expandir para que lea todos los Sheets de una carpeta -- no es dificil pero sin superar el limite de ejecucion de 6 mins we re fucked
    */
+
+}
+
+function myFunction2_hojaPorHoja() {
+
+  //url del documento a analizar
+  let doc1 = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=1174061784");
+
+  // Hoja a escanear del documento -> doc1
+  let HOJA = "1"
+
+
+  // Te deje esto aca por si queres pasar hoja a hoja
+  let telefonos = doc1.getRange(HOJA +"!" + SELECCION_TELEFONOS).getValues();   
+  
+  // Te deje esto aca por si queres pasar hoja a hoja
+  let personas = doc1.getRange(HOJA +"!" + SELECCION_PERSONAS).getValues();     
+  
+
+  // Limpiar array de telefonos para poder iterarlos
+  telefonos = limpiarArray(telefonos)
+  // Limpiar array de personas para poder iterarlos 
+  personas = limpiarArray(personas);
+
+  procesarHoja(telefonos, personas)
+
 
 }
 
