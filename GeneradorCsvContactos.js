@@ -96,7 +96,7 @@ function myFunction2_hojaPorHoja() {
   /**
    * Nombre de la Hoja a escanear del documento -> doc1 
    * */
-  let HOJA = "12"
+  let HOJA = "14"
 
   let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
 
@@ -261,13 +261,13 @@ function normalizarTelefonos(telefono) {
   /**
    * Validacion para  [54 261 1234567]
    */
-  if (telefono.length === 14 && 
-  telefono.substring(0, 2) === STR_54 && 
-  telefono.substring(3) === ESPACIO && 
-  telefono.substing(6) === ESPACIO) {
+  if (telefono.length === 14 &&
+    telefono.substring(0, 2) === STR_54 &&
+    telefono.substring(2, 3) === ESPACIO &&
+    telefono.substring(6, 7) === ESPACIO) {
 
-  telefono = telefono.replace(SRT_54, VACIO);
-  telefono = telefono.replaceAll(ESPACIO, VACIO);
+    telefono = telefono.replace(STR_54, VACIO);
+    telefono = telefono.replaceAll(ESPACIO, VACIO);
 
   }
 
@@ -290,7 +290,9 @@ function normalizarTelefonos(telefono) {
    */
   else if (telefono.length === 13 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
+    // borrar primer parentesis 
     telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
+    // borrar segundo parentesis ()
     telefono = telefono.replace(PARENTESIS_DER, VACIO).trim();
 
     primera = telefono.substring(0, 3)
@@ -310,7 +312,24 @@ function normalizarTelefonos(telefono) {
 
     telefono = telefono.replace(STR_549, VACIO)
 
+    console.log(telefono)
+
   }
+
+  /**
+   * Validacion para el formato [+542613054352]
+   */
+  if (telefono.length === 13 &&
+    telefono.substing(0, 1) === PLUS_SIGN &&
+    telefono.substring(1, 3) === STR_54) {
+
+    telefono = telefono.replace(PLUS_SIGN, VACIO);
+    telefono = telefono.replace(STR_54, VACIO);
+
+    console.log(telefono)
+
+  }
+
 
   /**
    * Validacion para el formato correcto [261 123-4567]
@@ -349,6 +368,16 @@ function normalizarTelefonos(telefono) {
     tercera = telefono.substring(6, telefono.length)
 
     nuevoTelefono = primera + ESPACIO + segunda + tercera;
+  }
+
+  /**
+   * Validacion para  [ 261 1234567]
+   */
+
+  if (telefono.length === 12 &&
+    telefono.substring(0, 1) === ESPACIO &&
+    telefono.substring(4, 5) === ESPACIO) {
+    telefono = telefono.replaceAll(ESPACIO, VACIO);
   }
 
   /**
