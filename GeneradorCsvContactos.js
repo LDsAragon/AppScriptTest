@@ -18,6 +18,7 @@ const ESPACIO = " ";
 const PARENTESIS_IZQ = "(";
 const PARENTESIS_DER = ")";
 const STR_54 = "54";
+const STR_549 = "549";
 const STR_261 = "261";
 const TYPE_NUMBER = "number"
 const EXCLAMATION = "!"
@@ -70,6 +71,7 @@ function myFunction() {
     telefonos = distribuidorTelefonos(paresDeDatos)
     personas = distribuidorPersonas(paresDeDatos)
 
+
     procesarHoja(telefonos, personas)
 
   }
@@ -93,8 +95,8 @@ function myFunction2_hojaPorHoja() {
 
   /**
    * Nombre de la Hoja a escanear del documento -> doc1 
-   * */ 
-  let HOJA = "3"
+   * */
+  let HOJA = "1"
 
   let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
 
@@ -257,7 +259,7 @@ function normalizarTelefonos(telefono) {
   }
 
   /**
-   * Validacion para numero con pais sin el mas [54 2611234567]
+   * Validacion para parentesis sin guion [(261) 1234567]
    */
   if (telefono.length === 13 && telefono.substring(2, 3) === ESPACIO) {
 
@@ -270,7 +272,7 @@ function normalizarTelefonos(telefono) {
 
   }
   /**
-   * Validacion para parentesis sin guion [(261) 1234567]
+   *  Validacion para numero con pais sin el mas [54 2611234567]
    */
   else if (telefono.length === 13 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
@@ -286,6 +288,17 @@ function normalizarTelefonos(telefono) {
 
     nuevoTelefono = primera + ESPACIO + segunda + GUION + tercera;
 
+
+  }
+
+  /**
+   * Validacion para el formato [5492616850545]
+   */
+  if (telefono.length === 13 && telefono.substring(0, 3) === STR_549) {
+
+    telefono = telefono.replace(STR_549, VACIO)
+
+    console.log(telefono)
 
   }
 
@@ -328,6 +341,15 @@ function normalizarTelefonos(telefono) {
     nuevoTelefono = primera + ESPACIO + segunda + tercera;
   }
 
+  /**
+   *  Validacion para [261 5489755]
+   */
+  if (telefono.length === 11 && telefono.substring(3, 4) === ESPACIO) {
+
+    telefono = telefono.replace(ESPACIO, VACIO);
+
+  }
+
   /**                 
    * Validacion para [2611234567]
    */
@@ -345,6 +367,8 @@ function normalizarTelefonos(telefono) {
    *  Telefonos fijos con guion [412-3456]
    */
   if (telefono.length === 8) {
+
+
 
     nuevoTelefono = STR_261 + ESPACIO + telefono
 
