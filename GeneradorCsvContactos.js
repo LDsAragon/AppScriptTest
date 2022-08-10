@@ -290,9 +290,7 @@ function normalizarTelefonos(telefono) {
    */
   else if (telefono.length === 13 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
-    // borrar primer parentesis 
     telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
-    // borrar segundo parentesis ()
     telefono = telefono.replace(PARENTESIS_DER, VACIO).trim();
 
     primera = telefono.substring(0, 3)
@@ -311,8 +309,6 @@ function normalizarTelefonos(telefono) {
   if (telefono.length === 13 && telefono.substring(0, 3) === STR_549) {
 
     telefono = telefono.replace(STR_549, VACIO)
-
-    console.log(telefono)
 
   }
 
