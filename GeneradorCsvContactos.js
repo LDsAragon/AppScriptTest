@@ -29,7 +29,7 @@ const PLUS_SIGN = "+"
 /**
  * URL del documento a analizar e ir leyendo hoja por hoja para normalizar los telefonos
  */
-const URL_DOCUMENTO_ANALIZAR = "https://docs.google.com/spreadsheets/d/1Mqf3kyq1bPOqPk2CVSGxAlw9KZuH_dG4zFoe4eW1AUo/edit#gid=228148124"
+const URL_DOCUMENTO_ANALIZAR = "https://docs.google.com/spreadsheets/d/1J6iiVD6tbj7TfawRqiQ-JK_S2K5D9zUXKMQqOQXp1us/edit#gid=2113230968"
 
 let primera;
 let segunda;
@@ -41,7 +41,7 @@ let nuevoTelefono;
 /**
  * Url del documento en el que se va a escribir el csv para importar a contactos de google.
  */
-const URL_CSV_SALIDA = "https://docs.google.com/spreadsheets/d/1ieVLgszeTa9UZ1g9QsYg3DSHNSWC3e7aSDS5SuB1Eyw/edit#gid=1964355463"
+const URL_CSV_SALIDA = "https://docs.google.com/spreadsheets/d/1FrPtPkOrur38Wl5QOPg5yw2H2ZDafD3SYleIBNMYfxI/edit#gid=1964355463"
 /**
  * Documento en el que se va a escribir el csv para importar a contactos de google.
  */
@@ -96,7 +96,7 @@ function myFunction2_hojaPorHoja() {
   /**
    * Nombre de la Hoja a escanear del documento -> doc1 
    * */
-  let HOJA = "1"
+  let HOJA = "12"
 
   let telefonos = doc1.getRange(HOJA + EXCLAMATION + SELECCION_TELEFONOS).getValues();
 
@@ -259,6 +259,20 @@ function normalizarTelefonos(telefono) {
   }
 
   /**
+   * Validacion para  [54 261 1234567]
+   */
+  if (telefono.length === 14 && 
+  telefono.substring(0, 2) === STR_54 && 
+  telefono.substring(3) === ESPACIO && 
+  telefono.substing(6) === ESPACIO) {
+
+  telefono = telefono.replace(SRT_54, VACIO);
+  telefono = telefono.replaceAll(ESPACIO, VACIO);
+
+  }
+
+
+  /**
    * Validacion para parentesis sin guion [(261) 1234567]
    */
   if (telefono.length === 13 && telefono.substring(2, 3) === ESPACIO) {
@@ -276,7 +290,9 @@ function normalizarTelefonos(telefono) {
    */
   else if (telefono.length === 13 && telefono.substring(0, 1) === PARENTESIS_IZQ) {
 
+    // borrar primer parentesis 
     telefono = telefono.replace(PARENTESIS_IZQ, VACIO);
+    // borrar segundo parentesis ()
     telefono = telefono.replace(PARENTESIS_DER, VACIO).trim();
 
     primera = telefono.substring(0, 3)
@@ -295,6 +311,8 @@ function normalizarTelefonos(telefono) {
   if (telefono.length === 13 && telefono.substring(0, 3) === STR_549) {
 
     telefono = telefono.replace(STR_549, VACIO)
+
+    console.log(telefono)
 
   }
 
